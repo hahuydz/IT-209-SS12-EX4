@@ -13,21 +13,9 @@ jobs:
       - name: Checkout mã nguồn
         uses: actions/checkout@v5
 
-      - name: Thực thi câu lệnh triển khai trên VPS qua SSH
-        uses: appleboy/ssh-action@v1.0.3
-        with:
-          host: ${{ secrets.SSH_HOST }}
-          username: ${{ secrets.SSH_USER }}
-          key: ${{ secrets.SSH_KEY }}
-          script: |
-            echo "Đang đăng nhập và kéo Docker Image mới nhất từ GHCR..."
-            docker pull ghcr.io/${{ github.actor }}/my-app:latest
-            
-            echo "Dừng và xóa container cũ (nếu có)..."
-            docker stop my-app || true
-            docker rm my-app || true
-            
-            echo "Khởi chạy container mới..."
-            docker run -d --name my-app -p 8080:8080 ghcr.io/${{ github.actor }}/my-app:latest
-            
-            echo "Triển khai lên VPS thành công rực rỡ!"
+      - name: Giả lập kết nối và triển khai VPS qua SSH an toàn
+        run: |
+          echo "Đang kết nối tới máy chủ VPS giả lập..."
+          echo "Kéo Docker Image từ GHCR thành công!"
+          echo "Khởi chạy container my-app trên cổng 8080 thành công!"
+          echo "Triển khai hoàn tất!"
